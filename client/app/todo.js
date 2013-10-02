@@ -6,11 +6,8 @@ todoApp.controller('TodoController', function ($scope, TodoService) {
 
     $scope.addTodo = function () {
         TodoService.addTodo($scope.todo)
-            .then(function (response) {
-                // response.data contains what the server returns
-                console.log(response);
-
-                $scope.todoList.push(response.data);
+            .then(function (newTodo) {
+                $scope.todoList.push(newTodo);
                 $scope.todo = {};
             });
     };
@@ -28,11 +25,18 @@ todoApp.controller('TodoController', function ($scope, TodoService) {
     };
 });
 
-todoApp.factory('TodoService', function ($http) {
+todoApp.factory('TodoService', function ($http, $q) {
     return {
         addTodo: function (todo) {
-            // returns a promise
-            return $http.post('/todo', todo);
+            var defer = $q.defer();
+
+            // resolve with response.data to avoid leaking the http abstraction
+            $http.post('/todo', todo)
+                .then(function (response) {
+                    defer.resolve(response.data);
+                }, defer.reject);
+
+            return defer.promise;
         }
     };
 });
