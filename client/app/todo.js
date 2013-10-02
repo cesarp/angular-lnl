@@ -8,7 +8,17 @@ todoApp.controller('TodoController', function ($scope) {
         $scope.todoList.push($scope.todo);
 
         $scope.todo = {};
+    };
 
-        console.log($scope.todoList);
+    $scope.deleteCompleted = function () {
+        var oldTodoList = $scope.todoList;
+
+        $scope.todoList = [];
+
+        oldTodoList.forEach(function (oldTodo) {
+            if (!oldTodo.done) {
+                $scope.todoList.push(oldTodo);
+            }
+        });
     };
 });

@@ -29,4 +29,17 @@ describe('TodoController', function () {
         expect(scope.todo.description).toBeFalsy();
         expect(scope.todo.project).toBeFalsy();
     });
+
+    it('should only have incomplete todos on the todoList when deleteCompleted() called', function () {
+        scope.todoList = [
+            {done: true},
+            {done: false},
+            {done: true}
+        ];
+
+        scope.deleteCompleted();
+
+        expect(scope.todoList.length).toBe(1);
+        expect(scope.todoList[0].done).toBeFalsy();
+    });
 });
