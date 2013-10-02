@@ -9,7 +9,7 @@
 
 <h1>Todo App</h1>
 
-<form name="addTodoForm" novalidate="" ng-submit="addTodo()">
+<form name="addTodoForm" novalidate="" ng-submit="addTodoForm.$valid && addTodo()">
     <select name="project" required=""
             ng-model="todo.project">
         <option value="">Project</option>
