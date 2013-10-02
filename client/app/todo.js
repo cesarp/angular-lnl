@@ -9,6 +9,7 @@ todoApp.controller('TodoController', function ($scope, TodoService) {
             .then(function (newTodo) {
                 $scope.todoList.push(newTodo);
                 $scope.todo = {};
+                $scope.addTodoForm.$setPristine();
             });
     };
 

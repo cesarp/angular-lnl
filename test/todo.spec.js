@@ -8,6 +8,7 @@ describe('TodoController', function () {
         q = $q;
         rootScope = $rootScope;
         mockTodoService = jasmine.createSpyObj('TodoService', ['addTodo']);
+        scope.addTodoForm = jasmine.createSpyObj('addTodoForm', ['$setPristine']);
 
         controller = $controller('TodoController', {
             $scope: scope,
