@@ -5,6 +5,10 @@ todoApp.controller('TodoController', function ($scope) {
     $scope.todoList = [];
 
     $scope.addTodo = function () {
-        console.log($scope.todo);
+        $scope.todoList.push($scope.todo);
+
+        $scope.todo = {};
+
+        console.log($scope.todoList);
     };
 });
