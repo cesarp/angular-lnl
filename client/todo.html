@@ -25,17 +25,11 @@
 </form>
 
 <ul>
-    <li>
-        <label>
-            <input type="checkbox"/> Todo Description Placeholder
+    <li ng-repeat="t in todoList">
+        <label ng-class="{done:t.done}">
+            <input type="checkbox" ng-model="t.done"/> {{ t.description }}
         </label>
-        <span class="project">MPM</span>
-    </li>
-    <li>
-        <label class="done">
-            <input type="checkbox" checked/> Completed todo
-        </label>
-        <span class="project">Marketing Services</span>
+        <span class="project">{{ t.project }}</span>
     </li>
 </ul>
 
