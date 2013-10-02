@@ -1,0 +1,84 @@
+body {
+    padding: 0 1em;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+input, button, select {
+    box-sizing: border-box;
+    padding: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+a:link, a:visited {
+    color: #3498db;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #3498db;
+    border: 1px solid #3498db;
+}
+
+button {
+    padding: 4px 10px;
+    color: #fff;
+    border-color: #3498db;
+    background-color: #3498db;
+    border-radius: 3px;
+}
+
+button:active {
+    border-color: #2980b9;
+    background-color: #2980b9;
+}
+
+button[disabled] {
+    color: #95a5a6;
+    border-color: #7f8c8d;
+    background-color: #7f8c8d;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    line-height: 1.7;
+    list-style-type: none;
+}
+
+h1 {
+    color: #34495e;
+}
+
+.done {
+    color: #7f8c8d;
+    text-decoration: line-through;
+}
+
+input.ng-pristine {
+    border: 1px solid #ccc;
+}
+
+input.ng-dirty.ng-invalid {
+    border: 1px solid #c00;
+}
+
+.error {
+    color: #c00;
+}
+
+span.project {
+    color: white;
+    background-color: #2ecc71;
+    text-decoration: none !important;
+    padding: 0.1em 0.3em;
+    font-size: 75%;
+    border-radius: 2px;
+}
