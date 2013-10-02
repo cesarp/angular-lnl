@@ -52,3 +52,30 @@ describe('TodoController', function () {
         expect(scope.todoList[0].done).toBeFalsy();
     });
 });
+
+describe('TodoService', function () {
+    var todoService, mockHttpBackend;
+
+    beforeEach(module('todoApp'));
+
+    beforeEach(inject(function ($rootScope, $httpBackend, TodoService) {
+        mockHttpBackend = $httpBackend;
+        todoService = TodoService;
+    }));
+
+
+
+    it('should post to the /task url with the todo as data when addTodo(todo) called', function () {
+        var todo = {description: 'something to test'};
+        mockHttpBackend.expectPOST('/todo', todo).respond({});
+
+        todoService.addTodo(todo);
+
+        mockHttpBackend.flush();
+    });
+
+    afterEach(function(){
+        mockHttpBackend.verifyNoOutstandingExpectation();
+        mockHttpBackend.verifyNoOutstandingRequest();
+    });
+});
