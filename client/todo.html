@@ -7,6 +7,40 @@
 </head>
 <body>
 
+<h1>Todo App</h1>
+
+<form>
+    <select name="project">
+        <option value="">Project</option>
+        <option value="MPM">MPM</option>
+        <option value="CLAIMS">Claims</option>
+        <option value="OTHER">Other</option>
+    </select>
+
+    <input type="text" name="description" size="40"/>
+
+    <button>Add</button>
+</form>
+
+<ul>
+    <li>
+        <label>
+            <input type="checkbox"/> Todo Description Placeholder
+        </label>
+        <span class="project">MPM</span>
+    </li>
+    <li>
+        <label class="done">
+            <input type="checkbox" checked/> Completed todo
+        </label>
+        <span class="project">Marketing Services</span>
+    </li>
+</ul>
+
+<p>
+    <a href=""><i class="icon-trash"></i> Delete completed todo</a>
+</p>
+
 <!-- the js code -->
 <script src="vendor/angular.js"></script>
 <script src="app/todo.js"></script>
