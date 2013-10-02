@@ -9,15 +9,17 @@
 
 <h1>Todo App</h1>
 
-<form>
-    <select name="project">
+<form name="addTodoForm" novalidate="" ng-submit="addTodo()">
+    <select name="project" required=""
+            ng-model="todo.project">
         <option value="">Project</option>
         <option value="MPM">MPM</option>
         <option value="CLAIMS">Claims</option>
         <option value="OTHER">Other</option>
     </select>
 
-    <input type="text" name="description" size="40"/>
+    <input type="text" name="description" size="40" required=""
+           ng-model="todo.description"/>
 
     <button>Add</button>
 </form>
