@@ -16,21 +16,21 @@ describe('TodoController', function () {
     }));
 
     it('should add the todo to the todoList when addTodo() called with success', function () {
-        var expectedTodo = {description: 'test', project: 'other'};
-        var response = {data: expectedTodo};
-        scope.todo = expectedTodo;
-        mockTodoService.addTodo.andReturn(q.when(response));
+        var todoToAdd = {description: 'test', project: 'other'};
+        var todoFromService = angular.extend({id: 1}, todoToAdd);
+        scope.todo = todoToAdd;
+        mockTodoService.addTodo.andReturn(q.when(todoFromService));
 
         scope.addTodo();
 
         rootScope.$apply();
         expect(scope.todoList.length).toBe(1);
-        expect(scope.todoList[0]).toBe(expectedTodo);
+        expect(scope.todoList[0]).toBe(todoFromService);
     });
 
     it('should assign a new object to the todo when addTodo() called', function () {
         scope.todo = {description: 'test', project: 'other'};
-        mockTodoService.addTodo.andReturn(q.when({data: scope.todo}));
+        mockTodoService.addTodo.andReturn(q.when({description: 'test'}));
 
         scope.addTodo();
 
@@ -54,16 +54,15 @@ describe('TodoController', function () {
 });
 
 describe('TodoService', function () {
-    var todoService, mockHttpBackend;
+    var todoService, mockHttpBackend, rootScope;
 
     beforeEach(module('todoApp'));
 
     beforeEach(inject(function ($rootScope, $httpBackend, TodoService) {
+        rootScope = $rootScope;
         mockHttpBackend = $httpBackend;
         todoService = TodoService;
     }));
-
-
 
     it('should post to the /task url with the todo as data when addTodo(todo) called', function () {
         var todo = {description: 'something to test'};
@@ -74,7 +73,23 @@ describe('TodoService', function () {
         mockHttpBackend.flush();
     });
 
-    afterEach(function(){
+    it('should return a promise and resolve it with the response.data value', function () {
+        var todoFromClient = {description: 'something to test'},
+            todoFromService = angular.extend({id: 1}, todoFromClient),
+            resolvedTodo = null;
+        mockHttpBackend.expectPOST('/todo', todoFromClient).respond(todoFromService);
+
+        todoService.addTodo(todoFromClient)
+            .then(function (newTodo) {
+                resolvedTodo = newTodo;
+            });
+
+        mockHttpBackend.flush();
+        rootScope.$apply();
+        expect(resolvedTodo).toBe(todoFromService);
+    });
+
+    afterEach(function () {
         mockHttpBackend.verifyNoOutstandingExpectation();
         mockHttpBackend.verifyNoOutstandingRequest();
     });
