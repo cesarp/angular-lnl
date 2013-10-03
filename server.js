@@ -1,9 +1,14 @@
 var _ = require('lodash'),
+    connectlr = require('connect-livereload'),
+    expresslr = require('express-livereload'),
     express = require('express'),
     app = express(),
     todos = {};
 
-app.use(express.static(__dirname + '/client'))
+expresslr(app, {watchDir: process.cwd() + "/client"});
+
+app.use(connectlr())
+    .use(express.static(__dirname + '/client'))
     .use(express.bodyParser());
 
 app.post('/todo', function (req, res) {
