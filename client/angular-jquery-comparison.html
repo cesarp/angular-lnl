@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="">
+<head>
+    <title>AngularJS vs jQuery</title>
+    <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body>
+
+<!-- ANGULAR HTML -->
+<h1>AngularJS</h1>
+
+<label>Name:</label>
+<input type="text" ng-model="yourName" placeholder="Enter a name here"/>
+
+<h2>Hello {{ yourName }}!</h2>
+
+<hr/>
+
+<!-- JQUERY HTML -->
+<h1>jQuery</h1>
+
+<div id="jqueryExample">
+    <label>Name:</label>
+    <input type="text" placeholder="Enter a name here"/>
+
+    <h2>
+        Hello
+        <!-- we add a span to find out the place to put the content -->
+        <span class="name"></span>!
+    </h2>
+</div>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="vendor/angular.js"></script>
+<!-- JQUERY CODE -->
+<script>
+    var $container = $('#jqueryExample'),
+            $input = $container.find('input'),
+            $name = $container.find('.name');
+
+    $input.on('keyup keydown', function () {
+        $name.text(this.value);
+    });
+</script>
+</body>
+</html>
