@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="">
+<head>
+    <title>AngularJS Example</title>
+    <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body>
+<h1>Example 01</h1>
+
+<label>Name:</label>
+<input type="text" class="form-control" placeholder="Enter a name here"
+       ng-model="yourName"/>
+
+<!-- mustache like syntax for templates -->
+<h2>Hello {{ yourName }}!</h2>
+
+<script src="vendor/angular.js"></script>
+</body>
+</html>
