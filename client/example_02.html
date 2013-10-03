@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="example">
+<head>
+    <title>AngularJS Example</title>
+    <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body>
+
+<div ng-controller="FirstController">
+    <h1>Simple Controller</h1>
+
+    <!-- function in the scope -->
+    <button ng-click="doSomething()">Click me</button>
+
+    <h2>Number of clicks: {{ count }}</h2>
+</div>
+
+<script src="vendor/angular.js"></script>
+<script src="app/example_02.js"></script>
+</body>
+</html>
