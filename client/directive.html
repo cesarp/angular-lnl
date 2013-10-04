@@ -3,9 +3,11 @@
 <head>
     <title>AngularJS Lunch and Learn</title>
     <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="stylesheet" href="styles/pikaday.css"/>
 </head>
 <body ng-controller="DemoController">
 
+<h1>Simple directive</h1>
 <div>
     <strong>A DEALER NAME</strong>
     <address>
@@ -19,7 +21,17 @@
 
 <dealer-info dealer="theDealer"></dealer-info>
 
+<!-- pikaday.js directive -->
+<h1>Use a 3rd party widget as a directive</h1>
+
+<h2>pikaday.js example</h2>
+<input type="text" date-picker ng-model="theDate" date-format="MM/DD/YYYY"/>
+
+<p><strong>Selected Date:</strong> {{ theDate }}</p>
+
 <script src="vendor/angular.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
+<script src="vendor/pikaday.js"></script>
 <script src="app/directive.js"></script>
 </body>
 </html>
