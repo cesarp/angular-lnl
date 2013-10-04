@@ -82,3 +82,12 @@ span.project {
     font-size: 75%;
     border-radius: 2px;
 }
+
+dealer-info {
+    display: block;
+}
+
+.highlight {
+    color: #fff;
+    background-color: #34495e;
+}
