@@ -1,7 +1,7 @@
 body {
     padding: 0 1em;
     font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     color: #333;
 }
 
@@ -9,7 +9,7 @@ input, button, select {
     box-sizing: border-box;
     padding: 4px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 a:link, a:visited {
