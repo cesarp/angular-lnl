@@ -24,6 +24,12 @@ todoApp.controller('TodoController', function ($scope, TodoService) {
             }
         });
     };
+
+    // load the existing todos when the controller is created
+    TodoService.getTodos()
+        .then(function (todos) {
+            $scope.todoList = todos;
+        })
 });
 
 todoApp.factory('TodoService', function ($http, $q) {
@@ -33,6 +39,17 @@ todoApp.factory('TodoService', function ($http, $q) {
 
             // resolve with response.data to avoid leaking the http abstraction
             $http.post('/todo', todo)
+                .then(function (response) {
+                    defer.resolve(response.data);
+                }, defer.reject);
+
+            return defer.promise;
+        },
+
+        getTodos: function () {
+            var defer = $q.defer();
+
+            $http.get('/todo')
                 .then(function (response) {
                     defer.resolve(response.data);
                 }, defer.reject);

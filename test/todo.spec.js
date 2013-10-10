@@ -7,8 +7,10 @@ describe('TodoController', function () {
         scope = $rootScope.$new();
         q = $q;
         rootScope = $rootScope;
-        mockTodoService = jasmine.createSpyObj('TodoService', ['addTodo']);
+        mockTodoService = jasmine.createSpyObj('TodoService', ['addTodo', 'getTodos']);
         scope.addTodoForm = jasmine.createSpyObj('addTodoForm', ['$setPristine']);
+
+        mockTodoService.getTodos.andReturn($q.when([]));
 
         controller = $controller('TodoController', {
             $scope: scope,
@@ -51,6 +53,10 @@ describe('TodoController', function () {
 
         expect(scope.todoList.length).toBe(1);
         expect(scope.todoList[0].done).toBeFalsy();
+    });
+
+    it('should load the list of todos when the controller is created', function () {
+        expect(mockTodoService.getTodos).toHaveBeenCalled();
     });
 });
 
