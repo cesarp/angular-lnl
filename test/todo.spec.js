@@ -1,45 +1,52 @@
 describe('TodoController', function () {
-    var controller, scope, rootScope, q, mockTodoService;
+    var controller, scope, rootScope, q;
 
+    // to use instead of the one that goes to the backend
+    function TodoMock() {
+        this.$save = jasmine.createSpy();
+        this.$save.andReturn(q.when(this));
+    }
+
+    // load our module
     beforeEach(module('todoApp'));
 
+    // prepare the object under test
     beforeEach(inject(function ($rootScope, $controller, $q) {
         scope = $rootScope.$new();
         q = $q;
         rootScope = $rootScope;
-        mockTodoService = jasmine.createSpyObj('TodoService', ['addTodo', 'getTodos']);
-        scope.addTodoForm = jasmine.createSpyObj('addTodoForm', ['$setPristine']);
 
-        mockTodoService.getTodos.andReturn($q.when([]));
+        TodoMock.query = jasmine.createSpy();
+        scope.addTodoForm = jasmine.createSpyObj('addTodoForm', ['$setPristine']);
 
         controller = $controller('TodoController', {
             $scope: scope,
-            TodoService: mockTodoService
+            Todo: TodoMock
         });
     }));
 
     it('should add the todo to the todoList when addTodo() called with success', function () {
-        var todoToAdd = {description: 'test', project: 'other'};
-        var todoFromService = angular.extend({id: 1}, todoToAdd);
-        scope.todo = todoToAdd;
-        mockTodoService.addTodo.andReturn(q.when(todoFromService));
+        var expectedTodo = scope.todo;
+        expectedTodo.description = 'something'; // suppose the user typed this in the UI
+        scope.todoList = [];
 
         scope.addTodo();
 
-        rootScope.$apply();
+        rootScope.$apply(); // to simulate that the async operation completed
         expect(scope.todoList.length).toBe(1);
-        expect(scope.todoList[0]).toBe(todoFromService);
+        expect(scope.todoList[0]).toBe(expectedTodo);
     });
 
-    it('should assign a new object to the todo when addTodo() called', function () {
-        scope.todo = {description: 'test', project: 'other'};
-        mockTodoService.addTodo.andReturn(q.when({description: 'test'}));
+    it('should assign a new instance to the $scope.todo when addTodo() called', function () {
+        var originalTodo = scope.todo;
+        scope.todo.description = 'my test';
+        scope.todo.project = 'my project';
+        scope.todoList = [];
 
         scope.addTodo();
 
         rootScope.$apply();
-        expect(scope.todo.description).toBeFalsy();
-        expect(scope.todo.project).toBeFalsy();
+        expect(scope.todo).not.toBe(originalTodo);
     });
 
     it('should only have incomplete todos on the todoList when deleteCompleted() called', function () {
@@ -56,48 +63,6 @@ describe('TodoController', function () {
     });
 
     it('should load the list of todos when the controller is created', function () {
-        expect(mockTodoService.getTodos).toHaveBeenCalled();
-    });
-});
-
-describe('TodoService', function () {
-    var todoService, mockHttpBackend, rootScope;
-
-    beforeEach(module('todoApp'));
-
-    beforeEach(inject(function ($rootScope, $httpBackend, TodoService) {
-        rootScope = $rootScope;
-        mockHttpBackend = $httpBackend;
-        todoService = TodoService;
-    }));
-
-    it('should post to the /task url with the todo as data when addTodo(todo) called', function () {
-        var todo = {description: 'something to test'};
-        mockHttpBackend.expectPOST('/todo', todo).respond({});
-
-        todoService.addTodo(todo);
-
-        mockHttpBackend.flush();
-    });
-
-    it('should return a promise and resolve it with the response.data value', function () {
-        var todoFromClient = {description: 'something to test'},
-            todoFromService = angular.extend({id: 1}, todoFromClient),
-            resolvedTodo = null;
-        mockHttpBackend.expectPOST('/todo', todoFromClient).respond(todoFromService);
-
-        todoService.addTodo(todoFromClient)
-            .then(function (newTodo) {
-                resolvedTodo = newTodo;
-            });
-
-        mockHttpBackend.flush();
-        rootScope.$apply();
-        expect(resolvedTodo).toBe(todoFromService);
-    });
-
-    afterEach(function () {
-        mockHttpBackend.verifyNoOutstandingExpectation();
-        mockHttpBackend.verifyNoOutstandingRequest();
+        expect(TodoMock.query).toHaveBeenCalled();
     });
 });

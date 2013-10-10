@@ -1,14 +1,16 @@
-var todoApp = angular.module('todoApp', []);
+var todoApp = angular.module('todoApp', ['ngResource']);
 
-todoApp.controller('TodoController', function ($scope, TodoService) {
-    $scope.todo = {};
-    $scope.todoList = [];
+todoApp.controller('TodoController', function ($scope, Todo) {
+    $scope.todo = new Todo();
+    $scope.todoList = Todo.query();
 
     $scope.addTodo = function () {
-        TodoService.addTodo($scope.todo)
-            .then(function (newTodo) {
-                $scope.todoList.push(newTodo);
-                $scope.todo = {};
+        $scope.todo.$save()
+            .then(function (todo) {
+                $scope.todoList.push($scope.todo);
+
+                $scope.todo = new Todo();
+
                 $scope.addTodoForm.$setPristine();
             });
     };
@@ -24,37 +26,9 @@ todoApp.controller('TodoController', function ($scope, TodoService) {
             }
         });
     };
-
-    // load the existing todos when the controller is created
-    TodoService.getTodos()
-        .then(function (todos) {
-            $scope.todoList = todos;
-        })
 });
 
-todoApp.factory('TodoService', function ($http, $q) {
-    return {
-        addTodo: function (todo) {
-            var defer = $q.defer();
-
-            // resolve with response.data to avoid leaking the http abstraction
-            $http.post('/todo', todo)
-                .then(function (response) {
-                    defer.resolve(response.data);
-                }, defer.reject);
-
-            return defer.promise;
-        },
-
-        getTodos: function () {
-            var defer = $q.defer();
-
-            $http.get('/todo')
-                .then(function (response) {
-                    defer.resolve(response.data);
-                }, defer.reject);
-
-            return defer.promise;
-        }
-    };
+// define a resource instead of using the $http module
+todoApp.factory('Todo', function ($resource) {
+    return $resource('/todo/:id');
 });

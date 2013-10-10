@@ -16,6 +16,7 @@ module.exports = function (config) {
         files: [
             'client/vendor/angular.js',
             'client/vendor/angular-mocks.js',
+            'client/vendor/angular-resource.js',
             'client/app/todo*.js',
             'test/todo*.js'
         ],
